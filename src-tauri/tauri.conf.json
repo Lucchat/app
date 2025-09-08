@@ -12,11 +12,27 @@
   "app": {
     "windows": [
       {
-        "title": "app",
-        "width": 800,
-        "height": 600
+        "label": "login",
+        "title": "Lucchat - Login",
+        "decorations": false,
+        "transparent": true,
+        "resizable": true,
+        "width": 400,
+        "height": 500
+      },
+      {
+        "label": "main",
+        "title": "Lucchat",
+        "decorations": true,
+        "transparent": false,
+        "fullscreen": false,
+        "resizable": true,
+        "width": 1200,
+        "height": 800,
+        "visible": false
       }
     ],
+
     "security": {
       "csp": null
     }

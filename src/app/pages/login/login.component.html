@@ -1,0 +1,40 @@
+<div class="window">
+  <!-- Background animé -->
+  <div class="background-illustration"></div>
+
+  <!-- Titlebar -->
+  <div class="titlebar" data-tauri-drag-region>
+    <span class="titlebar-text">Lucchat</span>
+    <div class="controls">
+      <button (click)="minimize()">—</button>
+      <button (click)="close()">✕</button>
+    </div>
+  </div>
+
+  <!-- Contenu -->
+  <div class="login-card">
+    <h1 class="title">Lucchat</h1>
+    <p class="subtitle">Connexion sécurisée</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <input
+        type="text"
+        placeholder="Nom d'utilisateur"
+        [(ngModel)]="username"
+        name="username"
+        required
+      />
+      <input
+        type="password"
+        placeholder="Mot de passe"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+</div>
