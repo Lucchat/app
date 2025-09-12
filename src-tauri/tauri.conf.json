@@ -17,8 +17,8 @@
         "decorations": false,
         "transparent": true,
         "resizable": true,
-        "width": 400,
-        "height": 500
+        "width": 500,
+        "height": 600
       },
       {
         "label": "main",

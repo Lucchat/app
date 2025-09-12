@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { core } from '@tauri-apps/api';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 const appWindow = getCurrentWindow();
+import { BackgroundComponent } from '../background/background.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BackgroundComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -16,6 +17,8 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
+  showPassword = false;
+
 
   async onSubmit() {
     try {
