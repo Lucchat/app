@@ -1,4 +1,5 @@
 pub mod commands;
+pub mod keys;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -7,6 +8,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             // ajoute ici tes commandes, ex :
             commands::auth::login::login,
+            commands::auth::register::register
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

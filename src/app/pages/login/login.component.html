@@ -1,7 +1,6 @@
 <div class="window">
   <app-background></app-background>
 
-  <!-- Titlebar -->
   <div class="titlebar" data-tauri-drag-region>
     <span class="titlebar-text">Lucchat</span>
     <div class="controls">
@@ -10,41 +9,68 @@
     </div>
   </div>
 
-  <!-- Contenu -->
   <div class="login-card">
-    <h1 class="title">Lucchat</h1>
-    <p class="subtitle">Connexion sécurisée</p>
-    <form (ngSubmit)="onSubmit()">
-      <div class="input-wrapper">
-        <input type="text" placeholder="Nom d'utilisateur" [(ngModel)]="username" name="username" required />
-      </div>
-      <div class="input-wrapper password-wrapper">
-  <input
-    [type]="showPassword ? 'text' : 'password'"
-    placeholder="Mot de passe"
-    [(ngModel)]="password"
-    name="password"
-    required
-  />
-  <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
-    <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/>
-    </svg>
-    <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-      <path d="M12 6.5c4.5 0 8.58 2.56 10.36 6.5-1.78 3.94-5.86 6.5-10.36 6.5S3.42 16.94 1.64 13C3.42 9.06 7.5 6.5 12 6.5m0-2C6.48 4.5 1.73 8.11 0 13c1.73 4.89 6.48 8.5 12 8.5s10.27-3.61 12-8.5c-1.73-4.89-6.48-8.5-12-8.5z"/>
-      <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
-    </svg>
-  </button>
-</div>
 
+    <ng-container *ngIf="!loginSuccess">
 
-      <button type="submit" class="custom-button-light">
-        Se connecter
-      </button>
+      <!-- Login mode -->
+      <ng-container *ngIf="!isRegisterMode; else registerForm">
+        <h1 class="title">Lucchat</h1>
+        <p class="subtitle">Secure login</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-wrapper">
+            <input type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
+          </div>
 
-    </form>
-    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+          <div class="input-wrapper password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+              [(ngModel)]="password" name="password" required />
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+              <img *ngIf="!showPassword" src="assets/icons/eye.svg" alt="Show password" width="22" height="22">
+              <img *ngIf="showPassword" src="assets/icons/eye-off.svg" alt="Hide password" width="22" height="22">
+            </button>
+          </div>
 
+          <button type="submit" class="custom-button-light">Log in</button>
+        </form>
+      </ng-container>
 
+      <!-- Register mode -->
+      <ng-template #registerForm>
+        <h1 class="title">Lucchat</h1>
+        <p class="subtitle">Create an account</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-wrapper">
+            <input type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
+          </div>
+
+          <div class="input-wrapper password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+              [(ngModel)]="password" name="password" required />
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+              <img *ngIf="!showPassword" src="assets/icons/eye.svg" alt="Show password" width="22" height="22">
+              <img *ngIf="showPassword" src="assets/icons/eye-off.svg" alt="Hide password" width="22" height="22">
+            </button>
+          </div>
+
+          <button type="submit" class="custom-button-light">Register</button>
+        </form>
+      </ng-template>
+    </ng-container>
+
+    <div *ngIf="!loginSuccess">
+      <p class="switch-mode" *ngIf="!isRegisterMode">
+        Don’t have an account?
+        <span class="switch-link" (click)="toggleMode()">Create one</span>
+      </p>
+      <p class="switch-mode" *ngIf="isRegisterMode">
+        Already have an account?
+        <span class="switch-link" (click)="toggleMode()">Log in</span>
+      </p>
+    </div>
+
+    <app-login-completed *ngIf="loginSuccess"></app-login-completed>
   </div>
 </div>
