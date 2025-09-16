@@ -1,11 +1,12 @@
-use reqwest::Client;
-use tauri::Manager;
-use std::fs::{self, OpenOptions};
-use std::io::Write;
-use serde::{Deserialize, Serialize};
 use crate::commands::auth::response_struct::LoginResponse;
 use crate::keys::one_time_prekey::OneTimePreKeyPublic;
-use crate::keys::{identity::IdentityKey, one_time_prekey::OneTimePreKeyGroup, signed_prekey::SignedPreKey};
+use crate::keys::PrivateKeys;
+use crate::keys::{
+    identity::IdentityKey, one_time_prekey::OneTimePreKeyGroup, signed_prekey::SignedPreKey,
+};
+use reqwest::Client;
+use serde::{Deserialize, Serialize};
+use tauri::Manager;
 
 #[derive(Deserialize, Serialize)]
 pub struct RegisterPayloadFromFrontend {
@@ -23,18 +24,13 @@ pub struct RegisterPayload {
 }
 
 #[tauri::command]
-pub async fn register(payload: RegisterPayloadFromFrontend, app_handle: tauri::AppHandle) -> Result<LoginResponse, String> {
-    // 1. Vérifier si le fichier local existe
-    // let dir = app_handle.path().app_data_dir().expect("Failed to get app data dir").join("lucchat");
-    // let file_path = dir.join("users.txt");
-
-    // // 2. Créer le dossier si besoin
-    // if let Some(parent) = file_path.parent() {
-    //     fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    // }
+pub async fn register(
+    payload: RegisterPayloadFromFrontend,
+    app_handle: tauri::AppHandle,
+) -> Result<LoginResponse, String> {
     let ik = IdentityKey::new();
     let spk = SignedPreKey::new(&ik.signing_key());
-    let opk = OneTimePreKeyGroup::new(100); // Générer
+    let opk = OneTimePreKeyGroup::new(100);
 
     let payload_with_key = RegisterPayload {
         username: payload.username.clone(),
@@ -43,10 +39,6 @@ pub async fn register(payload: RegisterPayloadFromFrontend, app_handle: tauri::A
         spk_pub: spk.public,
         opk_pub: opk.public_group().keys,
     };
-    
-    println!("ik: {:?}", ik.dh_public);
-    println!("spk: {:?}", spk.public);
-    println!("opks: {:?}", opk.public_group().keys);
 
     let client = Client::new();
 
@@ -60,11 +52,34 @@ pub async fn register(payload: RegisterPayloadFromFrontend, app_handle: tauri::A
     if !res.status().is_success() {
         return Err(format!("Échec: HTTP {}", res.status()));
     }
-
+    save_private_keys(
+        &app_handle,
+        &PrivateKeys { ik, spk, opk },
+        &payload.username,
+    )?;
     let data: LoginResponse = res
         .json()
         .await
         .map_err(|e| format!("Erreur parsing JSON: {}", e))?;
 
     Ok(data)
+}
+
+fn save_private_keys(
+    app_handle: &tauri::AppHandle,
+    keys: &PrivateKeys,
+    username: &str,
+) -> Result<(), String> {
+    let dir = app_handle
+        .path()
+        .app_data_dir()
+        .expect("Failed to get app data dir")
+        .join("lucchat");
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    let file_path = dir.join(format!("{}_keys.json", username));
+
+    println!("🔑 Saving keys to: {:?}", file_path);
+
+    let data = serde_json::to_string(keys).map_err(|e| e.to_string())?;
+    std::fs::write(&file_path, data).map_err(|e| e.to_string())
 }
