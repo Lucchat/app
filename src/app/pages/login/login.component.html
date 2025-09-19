@@ -1,0 +1,81 @@
+<div class="window">
+  <app-background></app-background>
+
+  <div class="titlebar" data-tauri-drag-region>
+    <span class="titlebar-text">Lucchat</span>
+    <div class="controls">
+      <button (click)="minimize()">—</button>
+      <button (click)="close()">✕</button>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <ng-container *ngIf="!loginSuccess">
+
+      <!-- Login mode -->
+      <ng-container *ngIf="!isRegisterMode; else registerForm">
+        <div class="login-header">
+          <img src="assets/lucchat.png" alt="Lucchat logo" class="app-logo" />
+          <h1 class="title">Lucchat</h1>
+          <p class="subtitle">Secure login</p>
+        </div>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-wrapper">
+            <input type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
+          </div>
+
+          <div class="input-wrapper password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                   [(ngModel)]="password" name="password" required />
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+              <img *ngIf="!showPassword" src="assets/icons/eye.svg" alt="Show password" width="22" height="22">
+              <img *ngIf="showPassword" src="assets/icons/eye-off.svg" alt="Hide password" width="22" height="22">
+            </button>
+          </div>
+
+          <button type="submit" class="custom-button-light" [disabled]="loading">Log in</button>
+        </form>
+      </ng-container>
+
+      <!-- Register mode -->
+      <ng-template #registerForm>
+        <div class="login-header">
+          <img src="assets/lucchat.png" alt="Lucchat logo" class="app-logo" />
+          <h1 class="title">Lucchat</h1>
+          <p class="subtitle">Create an account</p>
+        </div>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <form (ngSubmit)="onSubmit()">
+          <div class="input-wrapper">
+            <input type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
+          </div>
+
+          <div class="input-wrapper password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="Password"
+                   [(ngModel)]="password" name="password" required />
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+              <img *ngIf="!showPassword" src="assets/icons/eye.svg" alt="Show password" width="22" height="22">
+              <img *ngIf="showPassword" src="assets/icons/eye-off.svg" alt="Hide password" width="22" height="22">
+            </button>
+          </div>
+
+          <button type="submit" class="custom-button-light" [disabled]="loading">Register</button>
+        </form>
+      </ng-template>
+    </ng-container>
+
+    <div *ngIf="!loginSuccess">
+      <p class="switch-mode" *ngIf="!isRegisterMode">
+        Don’t have an account?
+        <span class="switch-link" (click)="toggleMode()">Create one</span>
+      </p>
+      <p class="switch-mode" *ngIf="isRegisterMode">
+        Already have an account?
+        <span class="switch-link" (click)="toggleMode()">Log in</span>
+      </p>
+    </div>
+
+    <app-login-completed *ngIf="loginSuccess"></app-login-completed>
+  </div>
+</div>

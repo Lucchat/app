@@ -8,5 +8,7 @@ This template should help get you started developing with Tauri and Angular.
 
 To run the project locally:
 ```sh
+cd app
+npm i
 npm run tauri dev
 ``` 
