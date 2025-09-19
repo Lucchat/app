@@ -4,6 +4,7 @@ use crate::keys::PrivateKeys;
 use crate::keys::{
     identity::IdentityKey, one_time_prekey::OneTimePreKeyGroup, signed_prekey::SignedPreKey,
 };
+use crate::{log_error, log_info};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
@@ -61,7 +62,7 @@ pub async fn register(
         .json()
         .await
         .map_err(|e| format!("Erreur parsing JSON: {}", e))?;
-
+    log_info!("User {} registered successfully", payload.username);
     Ok(data)
 }
 
@@ -75,11 +76,22 @@ fn save_private_keys(
         .app_data_dir()
         .expect("Failed to get app data dir")
         .join("lucchat");
-    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    if let Err(e) = std::fs::create_dir_all(&dir) {
+        log_error!("Failed to create directory: {}", e);
+        return Err(e.to_string());
+    }
     let file_path = dir.join(format!("{}_keys.json", username));
-
-    println!("🔑 Saving keys to: {:?}", file_path);
-
-    let data = serde_json::to_string(keys).map_err(|e| e.to_string())?;
-    std::fs::write(&file_path, data).map_err(|e| e.to_string())
+    let data = match serde_json::to_string(keys) {
+        Ok(d) => d,
+        Err(e) => {
+            log_error!("Failed to serialize keys: {}", e);
+            return Err(e.to_string());
+        }
+    };
+    if let Err(e) = std::fs::write(&file_path, data) {
+        log_error!("Failed to write keys file: {}", e);
+        return Err(e.to_string());
+    }
+    log_info!("Private keys saved successfully for user {}", username);
+    Ok(())
 }
