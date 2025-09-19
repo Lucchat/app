@@ -1,5 +1,5 @@
-use serde::{Serialize, Deserialize};
 use crate::keys::one_time_prekey::OneTimePreKeyPublic;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LoginResponse {

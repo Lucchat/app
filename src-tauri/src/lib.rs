@@ -1,5 +1,7 @@
 pub mod commands;
 pub mod keys;
+#[macro_use]
+pub mod logger;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -10,6 +12,10 @@ pub fn run() {
             commands::auth::login::login,
             commands::auth::register::register
         ])
+        .setup(|app| {
+            logger::init_logger(app.handle());
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
