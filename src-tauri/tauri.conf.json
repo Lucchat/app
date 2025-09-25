@@ -13,23 +13,12 @@
     "windows": [
       {
         "label": "login",
-        "title": "Lucchat - Login",
+        "title": "Lucchat",
         "decorations": false,
         "transparent": true,
         "resizable": true,
         "width": 500,
         "height": 1000
-      },
-      {
-        "label": "main",
-        "title": "Lucchat",
-        "decorations": true,
-        "transparent": false,
-        "fullscreen": false,
-        "resizable": true,
-        "width": 1200,
-        "height": 800,
-        "visible": false
       }
     ],
 

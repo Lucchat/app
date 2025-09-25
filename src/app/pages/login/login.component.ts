@@ -3,21 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 
-import { BackgroundComponent } from '../background/background.component';
-import { LoginCompletedComponent } from '../login-completed/login-completed.component';
+import { BackgroundComponent } from './components/background/background.component';
+import { CompletedComponent } from './components/completed/completed.component';
 import { AuthService } from '../../services/auth.service';
 import { LoginResponse } from '../../models/auth.models';
 
 import { mapLoginError } from '../../utils/errors/http/login-error-mapper';
 import { mapRegisterError } from '../../utils/errors/http/register-error-mapper';
 import { mapGenericError } from '../../utils/errors/generic-error-mapper';
+import { Router } from '@angular/router';
 
 const appWindow = getCurrentWindow();
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, BackgroundComponent, LoginCompletedComponent],
+  imports: [CommonModule, FormsModule, BackgroundComponent, CompletedComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -32,7 +33,11 @@ export class LoginComponent {
   loading = false;
   loginResponse: LoginResponse | null = null;
 
-  constructor(private auth: AuthService) {}
+  async ngOnInit() {
+    await appWindow.setTitle("Lucchat - Login");
+  }
+
+  constructor(private auth: AuthService, private router: Router) { }
 
   async onSubmit() {
     if (this.loading) return;
@@ -46,12 +51,19 @@ export class LoginComponent {
         this.errorMessage = '';
         this.isRegisterMode = false;
         this.loginSuccess = true;
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        this.router.navigate(['/home']); 
+
       } else {
         const response = await this.auth.login({ username: this.username, password: this.password });
         this.loginResponse = response;
         console.log('User logged in:', this.loginResponse);
         this.errorMessage = '';
         this.loginSuccess = true;
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        this.router.navigate(['/home']); 
       }
     } catch (err: any) {
       this.handleError(err, this.isRegisterMode);
