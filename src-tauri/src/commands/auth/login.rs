@@ -4,7 +4,7 @@ use std::fs;
 use tauri::Manager;
 
 use crate::commands::auth::response_struct::LoginResponse;
-use crate::keys::PrivateKeys;
+use crate::structs::keys::PrivateKeys;
 use crate::{log_error, log_info, log_warn};
 
 #[derive(Debug, Deserialize, Serialize)]

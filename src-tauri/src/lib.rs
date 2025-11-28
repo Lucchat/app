@@ -1,5 +1,6 @@
 pub mod commands;
-pub mod keys;
+pub mod crypt;
+pub mod structs;
 #[macro_use]
 pub mod logger;
 

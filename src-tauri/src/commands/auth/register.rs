@@ -1,7 +1,7 @@
 use crate::commands::auth::response_struct::LoginResponse;
-use crate::keys::one_time_prekey::OneTimePreKeyPublic;
-use crate::keys::PrivateKeys;
-use crate::keys::{
+use crate::structs::keys::one_time_prekey::OneTimePreKeyPublic;
+use crate::structs::keys::PrivateKeys;
+use crate::structs::keys::{
     identity::IdentityKey, one_time_prekey::OneTimePreKeyGroup, signed_prekey::SignedPreKey,
 };
 use crate::{log_error, log_info};
