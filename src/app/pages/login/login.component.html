@@ -1,13 +1,6 @@
 <div class="window">
   <app-background></app-background>
-
-  <div class="titlebar" data-tauri-drag-region>
-    <span class="titlebar-text">Lucchat</span>
-    <div class="controls">
-      <button (click)="minimize()">—</button>
-      <button (click)="close()">✕</button>
-    </div>
-  </div>
+  <app-titlebar></app-titlebar>
 
   <div class="login-card">
     <ng-container *ngIf="!loginSuccess">

@@ -5,6 +5,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 
 import { BackgroundComponent } from './components/background/background.component';
 import { CompletedComponent } from './components/completed/completed.component';
+import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { AuthService } from '../../services/auth.service';
 import { LoginResponse } from '../../models/auth.models';
 
@@ -18,7 +19,7 @@ const appWindow = getCurrentWindow();
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, BackgroundComponent, CompletedComponent],
+  imports: [CommonModule, FormsModule, BackgroundComponent, CompletedComponent, TitlebarComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

@@ -1,0 +1,24 @@
+<div class="chat" *ngIf="contactId !== null; else noChatSelected">
+  <div class="chat-header">
+    <h2>Chat with {{ contactId }}</h2>
+  </div>
+
+  <div class="chat-messages">
+    <div *ngFor="let msg of messages[contactId]" class="message" [ngClass]="msg.type">
+      <p>{{ msg.text }}</p>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <div class="input-wrapper">
+        <input type="text" placeholder="Type a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
+    </div>
+    <button (click)="sendMessage()" class="custom-button-light">Send</button>
+  </div>
+</div>
+
+<ng-template #noChatSelected>
+  <div class="chat-placeholder">
+    <p>Select a contact to start chatting</p>
+  </div>
+</ng-template>

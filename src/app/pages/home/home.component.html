@@ -1,1 +1,9 @@
-<div style="background-color: white;">it works</div>
+<div class="window">
+  <app-background></app-background>
+  <app-titlebar></app-titlebar>
+
+  <div class="home-container">
+    <app-sidebar (contactSelected)="selectedContact = $event" class="sidebar"></app-sidebar>
+    <app-chat [contactId]="selectedContact" class="chat"></app-chat>
+  </div>
+</div>

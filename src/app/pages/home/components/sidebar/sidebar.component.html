@@ -1,0 +1,19 @@
+<div class="sidebar" [class.collapsed]="collapsed">
+    <div class="sidebar-header">
+        <div class="input-wrapper">
+            <input *ngIf="!collapsed" type="text" placeholder="Search..." [(ngModel)]="searchQuery" />
+        </div>
+        <button class="burger-btn" (click)="toggleSidebar()">
+            ☰
+        </button>
+    </div>
+
+    <div class="contacts-list" *ngIf="!collapsed">
+        <div class="contact" *ngFor="let contact of filteredContacts()" (click)="selectContact(contact.id)">
+            <img src="assets/icons/user.svg" alt="{{contact.name}}" class="avatar" />
+            <div class="contact-info">
+                <h4 class="contact-name">{{ contact.name }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

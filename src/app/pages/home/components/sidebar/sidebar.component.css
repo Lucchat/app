@@ -1,0 +1,126 @@
+.sidebar {
+  background: rgba(30, 30, 30, 0.85);
+  border-right: 1px solid;
+  border-right-color: rgba(252, 84, 12, 0.3);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  width: 280px; /* desktop par défaut */
+}
+
+.sidebar-header {
+  background-color: rgba(17, 17, 17, 0.85);;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 8px;
+}
+
+.search-bar {
+  flex: 1;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+.burger-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ✅ Responsiveness */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .search-bar {
+    display: none; /* cache recherche si trop étroit */
+  }
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(30, 30, 30, 0.85);
+}
+.contact:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.contact:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    padding: 2px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border-radius: 6px;
+  padding: 1px;
+  background: transparent;
+}
+
+.input-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: linear-gradient(to right, #fc540c, #39d3e7);
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.input-wrapper:focus-within::before {
+  opacity: 0.6;
+}
+
+.input-wrapper input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 5px;
+  border: none;
+  background: black;
+  color: #fff;
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+}
+
+.input-wrapper input::placeholder {
+  color: #cfcfcf;
+  opacity: 1;
+}

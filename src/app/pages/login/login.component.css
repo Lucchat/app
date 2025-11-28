@@ -21,42 +21,8 @@ html, body {
   font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-.titlebar {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(17, 17, 17, 0.8);
-  color: #fff;
-  padding: 0 10px;
-  user-select: none;
-  -webkit-app-region: drag;
-  z-index: 2;
-}
-
-.titlebar-text {
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.controls {
-  display: flex;
-  gap: 4px;
-}
-
-.controls button {
-  background: transparent;
-  border: none;
-  color: #fff;
-  -webkit-app-region: no-drag;
-  cursor: pointer;
-  padding: 0 8px;
-}
-.controls button:hover {
-  background: rgba(255, 0, 0, 0.2);
-}
-
 .login-card {
+  margin-top: 40px;
   position: relative;
   flex: 1;
   width: 100%;
@@ -68,11 +34,12 @@ html, body {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* 👈 placé en haut */
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
   box-sizing: border-box;
-  padding-top: 2rem; /* espace au-dessus */
+  padding-top: 2rem;
+   z-index: 5;
 }
 
 .login-header {
