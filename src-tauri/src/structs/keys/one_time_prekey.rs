@@ -135,24 +135,3 @@ pub struct OneTimePreKeyPublic {
 pub struct OneTimePreKeyGroupPublic {
     pub keys: Vec<OneTimePreKeyPublic>,
 }
-
-impl OneTimePreKeyGroupPublic {
-    /// Selects a usable one-time pre-key from the group (non-consuming).
-    ///
-    /// This method simulates a one-time selection from the server side.
-    /// In a production system, the selected key would be deleted server-side.
-    ///
-    /// # Returns
-    /// An available `OneTimePreKeyPublic`, or `None` if the group is empty.
-    pub fn use_key(&self) -> Option<OneTimePreKeyPublic> {
-        if !self.keys.is_empty() {
-            // let used_key = self.keys.remove(0);
-            // this will ask the api to get a key from the row of the User and delete the first key he founds and return it
-            let used_key = self.keys[0].clone();
-            // self.keys.push(OneTimePreKey::new());
-            Some(used_key)
-        } else {
-            None
-        }
-    }
-}
