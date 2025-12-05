@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use crate::commands::auth::response_struct::LoginResponse;
 use crate::log_info;
 use crate::crypt::x3dh::session::Session;
+use crate::commands::message::send_message::{send_message, SendMessageRequest};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct LoginPayload {

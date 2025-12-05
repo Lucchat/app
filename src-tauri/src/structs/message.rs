@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::structs::keys::one_time_prekey::OneTimePreKeyPublic;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Message {
     pub uuid: String,
@@ -9,7 +11,7 @@ pub struct Message {
     pub ciphertext: Vec<u8>,
     pub ratchet_pub: [u8; 32],
     pub message_index: u32,
-    pub opk_used: Option<[u8; 32]>,
+    pub opk_used: Option<OneTimePreKeyPublic>,
     pub ek_used: Option<[u8; 32]>,
     pub created_at: i64,
 }

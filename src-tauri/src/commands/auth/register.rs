@@ -10,12 +10,12 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize)]
-pub struct RegisterPayloadFromFrontend {
+pub struct RegisterRequest {
     username: String,
     password: String,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct RegisterPayload {
     username: String,
     password: String,
@@ -26,7 +26,7 @@ pub struct RegisterPayload {
 
 #[tauri::command]
 pub async fn register(
-    payload: RegisterPayloadFromFrontend,
+    payload: RegisterRequest,
     app_handle: tauri::AppHandle,
 ) -> Result<LoginResponse, String> {
     let ik = IdentityKey::new();
@@ -49,7 +49,6 @@ pub async fn register(
         .send()
         .await
         .map_err(|e| format!("Erreur lors de la requête: {}", e))?;
-
     if !res.status().is_success() {
         return Err(format!("Échec: HTTP {}", res.status()));
     }

@@ -44,7 +44,6 @@ impl User {
             .map_err(|e| format!("Failed to read keys file: {}", e))?;
         let keys: PrivateKeys =
             serde_json::from_str(&data).map_err(|e| format!("Failed to parse keys file: {}", e))?;
-        log_error!("Failed to load private keys");
         Ok(keys)
     }
 

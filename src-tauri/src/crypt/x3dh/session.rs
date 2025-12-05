@@ -130,8 +130,8 @@ impl Session {
     /// # Panics
     /// May panic if any cryptographic primitive fails unexpectedly.
     pub fn create_session_key(
-        sender_name: String,
-        receiver_name: String,
+        sender_id: String,
+        receiver_id: String,
         ik_initiator: &IdentityKey,
         ek_initiator: &EphemeralKey,
         spk_receiver: [u8; 32],
@@ -154,7 +154,7 @@ impl Session {
 
         let sk_bytes = derive_session_key(&ikm);
 
-        SessionKey::new(sk_bytes, sender_name, receiver_name)
+        SessionKey::new(sk_bytes, sender_id, receiver_id)
     }
 
     /// Derives a session key for the receiver (responder) in the X3DH protocol.
@@ -184,8 +184,8 @@ impl Session {
     /// # Panics
     /// May panic if any of the internal cryptographic functions fail unexpectedly.
     pub fn receive_session_key(
-        receiver_name: String,
-        sender_name: String,
+        receiver_id: String,
+        sender_id: String,
         receiver_ik: &IdentityKey,
         receiver_spk: &SignedPreKey,
         receiver_opk: OneTimePreKey,
@@ -200,6 +200,6 @@ impl Session {
         let ikm = [dh1, dh2, dh3, dh4].concat();
         let sk_bytes = derive_session_key(&ikm);
 
-        SessionKey::new(sk_bytes, sender_name, receiver_name)
+        SessionKey::new(sk_bytes, sender_id, receiver_id)
     }
 }

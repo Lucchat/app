@@ -17,6 +17,8 @@ use crate::structs::keys::{
 
 use crate::structs::message::Message;
 
+use crate::structs::keys::one_time_prekey::OneTimePreKeyPublic;
+
 /// Maintains the sender/receiver cryptographic state in a Double Ratchet session.
 ///
 /// `RatchetState` manages key evolution and encryption/decryption operations between
@@ -82,7 +84,7 @@ impl RatchetState {
         plaintext: &str,
         sender: String,
         receiver: String,
-        opk_used: Option<[u8; 32]>,
+        opk_used: Option<OneTimePreKeyPublic>,
         ek_used: Option<[u8; 32]>,
     ) -> Message {
         let should_ratchet = self.last_dhr.map_or(true, |prev| {
